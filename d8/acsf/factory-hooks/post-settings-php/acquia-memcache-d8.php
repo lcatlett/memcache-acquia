@@ -97,6 +97,13 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
       ],
     ];
 
+    // Use memcache for bootstrap, discovery, config instead of fast chained backend to properly
+    // invalidate caches on multiple webs. See https://www.drupal.org/node/2754947
+
+    $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
+    $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
+    $settings['cache']['bins']['config'] = 'cache.backend.memcache';
+
     // Use memcache as the default bin.
     $settings['cache']['default'] = 'cache.backend.memcache';
   }
